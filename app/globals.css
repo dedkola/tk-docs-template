@@ -1,0 +1,192 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
+@theme inline {
+  --font-sans: "Inter", "Inter Fallback", sans-serif;
+  --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", monospace;
+
+  /* Slate-based color system for clean white design */
+  --color-background: #ffffff;
+  --color-foreground: #1e293b;
+  --color-card: #ffffff;
+  --color-card-foreground: #1e293b;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1e293b;
+  --color-primary: #2563eb;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #1e293b;
+  --color-muted: #f8fafc;
+  --color-muted-foreground: #64748b;
+  --color-accent: #f1f5f9;
+  --color-accent-foreground: #1e293b;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #e2e8f0;
+  --color-input: #e2e8f0;
+  --color-ring: #3b82f6;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  --color-sidebar: #ffffff;
+  --color-sidebar-foreground: #1e293b;
+  --color-sidebar-primary: #2563eb;
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: #f1f5f9;
+  --color-sidebar-accent-foreground: #1e293b;
+  --color-sidebar-border: #e2e8f0;
+  --color-sidebar-ring: #3b82f6;
+}
+
+/* Color of text selection */
+::selection {
+  background-color: #0078d4;
+  color: #ffffff;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* MDX Prose Styles */
+  .prose {
+    @apply text-foreground max-w-none overflow-x-hidden;
+  }
+
+  .prose h1 {
+    @apply text-4xl font-bold tracking-tight mb-4 mt-8 text-foreground;
+  }
+
+  .prose h2 {
+    @apply text-3xl font-semibold tracking-tight mb-3 mt-8 pb-2 border-b border-border text-foreground;
+  }
+
+  .prose h3 {
+    @apply text-2xl font-semibold tracking-tight mb-2 mt-6 text-foreground;
+  }
+
+  .prose h4 {
+    @apply text-xl font-semibold mb-2 mt-4 text-foreground;
+  }
+
+  .prose p {
+    @apply leading-7 mb-4 text-foreground;
+  }
+
+  .prose a {
+    @apply text-primary underline underline-offset-4 hover:text-primary/80 transition-colors;
+  }
+
+  .prose code {
+    @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground;
+  }
+
+  .prose pre {
+    @apply bg-card border border-border rounded-lg p-4 overflow-x-auto mb-4 max-w-full w-full;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0 text-sm whitespace-pre;
+  }
+
+  /* Ensure code blocks don't overflow on mobile */
+  .prose > * {
+    @apply max-w-full;
+  }
+
+  .prose ul,
+  .prose ol {
+    @apply mb-4 ml-6;
+  }
+
+  .prose li {
+    @apply mb-2 leading-7;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-border pl-4 italic my-4 text-muted-foreground;
+  }
+
+  .prose table {
+    @apply w-full border-collapse mb-4;
+  }
+
+  .prose th {
+    @apply bg-muted px-4 py-2 text-left font-semibold border border-border;
+  }
+
+  .prose td {
+    @apply px-4 py-2 border border-border;
+  }
+}
+
+/* Custom Animations for Search Results */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoom-in {
+  from {
+    transform: scale(0.95);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.animate-in {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fade-in;
+}
+
+.zoom-in {
+  animation-name: zoom-in;
+}
+
+.fade-in.zoom-in {
+  animation-name: fade-in, zoom-in;
+}
