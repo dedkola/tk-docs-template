@@ -195,16 +195,30 @@ Each folder becomes a section in the sidebar, and files within become pages.
 
 ### Configuring Your Site
 
-**All site configuration is managed in a single file:** `config/site.ts`
+**Site configuration uses a layered approach with base and local configs:**
 
-This is the easiest way to customize your documentation site without touching code.
+The template uses a flexible configuration system that separates default settings from your customizations:
+
+- **`config/site.base.ts`** - Default base configuration (don't modify)
+- **`config/site.local.ts`** - Your local overrides (customize this)
+- **`config/site.ts`** - Merged configuration (automatically combines base + local)
+
+This approach keeps the base template clean and makes it easy to update without losing your customizations.
 
 #### Quick Configuration
 
-Edit `config/site.ts` to change:
+1. **Copy the example file** (first time only):
+
+   ```bash
+   cp config/site.local.example.ts config/site.local.ts
+   ```
+
+2. **Edit `config/site.local.ts`** to customize your site:
 
 ```typescript
-export const siteConfig = {
+import type { BaseSiteConfig } from "./site.base";
+
+export const localConfig: Partial<BaseSiteConfig> = {
   // Basic Information
   name: "Your Site Name",
   title: "Your Site Title",
@@ -231,12 +245,26 @@ export const siteConfig = {
     imageHeight: 630,
   },
 
+  // Google Analytics
+  analytics: {
+    googleAnalyticsId: "G-XXXXXXXXXX", // Add your GA4 ID
+  },
+
   // Footer Branding
   footer: {
     companyName: "YourCompany",
   },
-} as const;
+};
 ```
+
+> **Note:** You only need to specify the fields you want to override. Any fields not specified will use the defaults from `site.base.ts`.
+
+#### Why This Approach?
+
+- **Clean separation** - Base defaults stay intact, your changes are isolated
+- **Easy updates** - Update the template without losing your customizations
+- **Type safety** - TypeScript ensures your overrides match the base config
+- **Git-friendly** - Add `site.local.ts` to `.gitignore` for environment-specific configs
 
 #### Configuration Fields Explained
 
@@ -261,10 +289,16 @@ export const siteConfig = {
 ✅ **Footer text** - Company name in copyright  
 ✅ **OG Image** - Used when shared on social media
 
+> **💡 Tip:** After updating `site.local.ts`, restart your dev server for changes to take effect.
+
 #### Example: White-Label for a Client
 
+Create your `config/site.local.ts` with client-specific overrides:
+
 ```typescript
-export const siteConfig = {
+import type { BaseSiteConfig } from "./site.base";
+
+export const localConfig: Partial<BaseSiteConfig> = {
   name: "Client Inc",
   title: "Client Inc Documentation",
   description: "Official documentation for Client Inc products",
@@ -295,18 +329,20 @@ That's it! All branding updates instantly across the entire site.
 
 #### Analytics (Google Analytics)
 
-- Add your GA4 Measurement ID in `config/site.ts` at `analytics:` (format `G-XXXXXXXXXX`).
+Add your GA4 Measurement ID in `config/site.local.ts`:
 
 ```typescript
- // Analytics
-analytics: {
-   googleAnalyticsId: "", // e.g. G-XXXXXXXXXX
-}
+export const localConfig: Partial<BaseSiteConfig> = {
+  // ... other config
+  analytics: {
+    googleAnalyticsId: "G-XXXXXXXXXX", // Replace with your GA4 ID
+  },
+};
 ```
 
-- This ID is read by `components/analytics.tsx` and injected globally from `app/layout.tsx`.
-
-- Leave `googleAnalyticsId` empty to disable Google Analytics automatically. Restart dev server or redeploy after updating the ID.
+- The ID is read by `components/analytics.tsx` and injected globally from `app/layout.tsx`
+- Leave `googleAnalyticsId` empty to disable Google Analytics automatically
+- Restart dev server or redeploy after updating the ID
 
 ## 📁 Project Structure
 
@@ -342,6 +378,11 @@ tk-docs/
 │   ├── footer.tsx               # Site footer (dynamically loaded)
 │   ├── TableOfContents.tsx      # TOC component
 │   └── ShareButtons.tsx         # Social sharing
+├── config/                       # Configuration files
+│   ├── site.base.ts             # Base configuration (default values)
+│   ├── site.local.example.ts    # Example local config (copy to site.local.ts)
+│   ├── site.local.ts            # Your local overrides (gitignored)
+│   └── site.ts                  # Merged config (auto-generated)
 ├── content/                      # MDX documentation files
 │   └── component-examples.mdx   # Component showcase (reference)
 ├── hooks/                        # Custom React hooks
@@ -379,9 +420,9 @@ tk-docs/
 
 ### Quick Configuration ⚡ (Recommended)
 
-The easiest way to customize your site is using the **centralized config file:**
+The easiest way to customize your site is using the **layered config system:**
 
-👉 **Edit `config/site.ts`** - Change all branding, titles, descriptions, and social links in one place.
+👉 **Edit `config/site.local.ts`** - Override base settings for branding, titles, descriptions, and social links.
 
 See the [Configuring Your Site](#configuring-your-site) section above for all options.
 
