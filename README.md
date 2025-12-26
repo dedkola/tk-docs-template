@@ -456,11 +456,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         variant === "primary" && "bg-blue-600 text-white hover:bg-blue-700",
         variant === "secondary" &&
           "bg-gray-200 text-gray-800 hover:bg-gray-300",
-        className,
+        className
       )}
       {...props}
     />
-  ),
+  )
 );
 
 Button.displayName = "Button";
@@ -500,4 +500,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Made with ❤️ by [dedkola](https://github.com/dedkola/)
 
-[Documentation](https://tk-docs.com) • [GitHub](https://github.com/dedkola/tk-docs) • [Issues](https://github.com/dedkola/tk-docs/issues)
+[Documentation](https://doc.tkweb.site) • [GitHub](https://github.com/dedkola/tk-docs-templates) • [Issues](https://github.com/dedkola/tk-docs-template/issues)
