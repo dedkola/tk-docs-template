@@ -41,7 +41,7 @@ export const siteConfig = {
   // Social Media Links (set to null or empty string to hide)
   social: {
     github: "https://github.com/yourusername",
-    twitter: "https://twitter.com/yourusername",
+    twitter: "https://x.com/yourusername",
     linkedin: "https://linkedin.com/in/yourusername",
   },
 
