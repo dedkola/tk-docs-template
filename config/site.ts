@@ -1,6 +1,5 @@
 import { baseConfig, type BaseSiteConfig } from "./config.base";
 import { privateConfig } from "./config.private";
-import { localConfig as localExample } from "./config.local.example";
 
 const mergeSection = <T extends Record<string, unknown>>(
   baseSection: T,
@@ -10,18 +9,21 @@ const mergeSection = <T extends Record<string, unknown>>(
   ...(override ?? {}),
 });
 
-// Optional local config: prefer config.local.ts if present, else example
-let localConfig: Partial<BaseSiteConfig> = localExample;
-try {
-  // @ts-expect-error Optional module may not exist in production
-  const mod = await import("./config.local");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const maybeLocal = (mod as any)?.localConfig as
-    | Partial<BaseSiteConfig>
-    | undefined;
-  if (maybeLocal) localConfig = maybeLocal;
-} catch {
-  // No local overrides present; use example defaults
+// Optional local config: use conditional import with fallback
+// In production (no config.local.ts), this will use empty object
+// In development (with config.local.ts), this will use local overrides
+let localConfig: Partial<BaseSiteConfig> = {};
+
+// Try to import local config; if it doesn't exist, use empty object
+// This works because the file is optional and gitignored
+if (process.env.NODE_ENV === "development") {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const mod = require("./config.local");
+    localConfig = mod?.localConfig || {};
+  } catch {
+    // No local config in development; proceed with empty overrides
+  }
 }
 
 export const siteConfig: BaseSiteConfig = {

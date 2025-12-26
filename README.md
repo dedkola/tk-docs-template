@@ -290,11 +290,11 @@ export const privateConfig: Partial<BaseSiteConfig> = {
 ✅ **Footer text** - Company name in copyright  
 ✅ **OG Image** - Used when shared on social media
 
-> **💡 Tip:** After updating `site.local.ts`, restart your dev server for changes to take effect.
+> **💡 Tip:** After updating `config/config.private.ts` or `config/config.local.ts`, restart your dev server for changes to take effect.
 
 #### Example: White-Label for a Client
 
-Create your `config/site.local.ts` with client-specific overrides:
+Edit `config/config.private.ts` with client-specific overrides:
 
 ```typescript
 import type { BaseSiteConfig } from "./config.base";
