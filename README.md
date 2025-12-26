@@ -500,4 +500,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Made with ❤️ by [dedkola](https://github.com/dedkola/)
 
-[Documentation](https://doc.tkweb.site) • [GitHub](https://github.com/dedkola/tk-docs-templates) • [Issues](https://github.com/dedkola/tk-docs-template/issues)
+[Documentation](https://doc.tkweb.site) • [GitHub](https://github.com/dedkola/tk-docs-template) • [Issues](https://github.com/dedkola/tk-docs-template/issues)
