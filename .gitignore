@@ -1,8 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 .idea/
-.github/*
-!.github/workflows/
-!.github/copilot-instructions.md
+
 .vscode
 .playwright-mcp/*
 # dependencies
