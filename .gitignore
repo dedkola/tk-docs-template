@@ -2,6 +2,7 @@
 .idea/
 .github/*
 !.github/workflows/
+!.github/copilot-instructions.md
 .vscode
 .playwright-mcp/*
 # dependencies
