@@ -21,7 +21,6 @@ interface CodeProps {
 
 export function Code({ children = "", className = "" }: CodeProps) {
   const [copied, setCopied] = useState(false);
-  const [prismLoaded, setPrismLoaded] = useState(false);
   // Load Prism language definitions only on the client after Prism is set globally
   useEffect(() => {
     let mounted = true;
@@ -44,7 +43,7 @@ export function Code({ children = "", className = "" }: CodeProps) {
     ])
       .then(() => {
         if (mounted) {
-          setPrismLoaded(true);
+          // Languages loaded
         }
       })
       .catch((e) => {

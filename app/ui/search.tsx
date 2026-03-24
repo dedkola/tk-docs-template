@@ -21,6 +21,7 @@ export default function Search({ placeholder, onSearch, value }: SearchProps) {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         inputRef.current?.focus();
+        inputRef.current?.select();
       }
     };
 
