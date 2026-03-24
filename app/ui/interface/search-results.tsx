@@ -123,7 +123,8 @@ export default function SearchResults({ groupedFiles }: SearchResultsProps) {
     highlight: string;
   }) => {
     if (!highlight || !text) return <>{text}</>;
-    const parts = text.split(new RegExp(`(${highlight})`, "gi"));
+    const escaped = highlight.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const parts = text.split(new RegExp(`(${escaped})`, "gi"));
     return (
       <>
         {parts.map((part, i) =>

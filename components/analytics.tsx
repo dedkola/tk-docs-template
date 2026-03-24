@@ -20,7 +20,7 @@ export function Analytics() {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', '${googleAnalyticsId}');
+          gtag('config', ${JSON.stringify(googleAnalyticsId)});
         `}
       </Script>
     </>

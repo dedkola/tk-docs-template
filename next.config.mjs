@@ -6,6 +6,14 @@ const nextConfig = {
   // while avoiding Windows symlink issues during local builds.
   output: isDocker ? "standalone" : undefined,
   devIndicators: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
   async headers() {
     return [
       {

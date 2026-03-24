@@ -20,11 +20,12 @@ function getServerModules() {
   if (typeof window !== "undefined") {
     throw new Error("`lib/mdx-utils.ts` must only be used on the server");
   }
-  const req = eval("require") as NodeRequire;
+  /* eslint-disable @typescript-eslint/no-require-imports */
   return {
-    fs: req("fs") as typeof import("fs"),
-    path: req("path") as typeof import("path"),
+    fs: require("fs") as typeof import("fs"),
+    path: require("path") as typeof import("path"),
   };
+  /* eslint-enable @typescript-eslint/no-require-imports */
 }
 
 export function getMDXFiles(dir: string, baseDir: string = dir): MDXFile[] {
@@ -48,27 +49,27 @@ export function getMDXFiles(dir: string, baseDir: string = dir): MDXFile[] {
       const data = parsed.data as Record<string, unknown> | undefined;
 
       const title =
-          data && data.title
-              ? String(data.title).replace(/^['"]|['"]$/g, "")
-              : item.name.replace(".mdx", "");
+        data && data.title
+          ? String(data.title).replace(/^['"]|['"]$/g, "")
+          : item.name.replace(".mdx", "");
 
       const description =
-          data && data.description
-              ? String(data.description).replace(/^['"]|['"]$/g, "")
-              : undefined;
+        data && data.description
+          ? String(data.description).replace(/^['"]|['"]$/g, "")
+          : undefined;
 
       const tags =
-          data && data.tags
-              ? Array.isArray(data.tags)
-                  ? [...new Set(data.tags.map(String).map((t) => t.trim()))]
-                  : [
-                    ...new Set(
-                        String(data.tags)
-                            .split(",")
-                            .map((t) => t.trim()),
-                    ),
-                  ]
-              : undefined;
+        data && data.tags
+          ? Array.isArray(data.tags)
+            ? [...new Set(data.tags.map(String).map((t) => t.trim()))]
+            : [
+                ...new Set(
+                  String(data.tags)
+                    .split(",")
+                    .map((t) => t.trim()),
+                ),
+              ]
+          : undefined;
 
       const folder = slug.length > 1 ? slug[0] : undefined;
 
@@ -81,28 +82,34 @@ export function getMDXFiles(dir: string, baseDir: string = dir): MDXFile[] {
 
       // Parse keywords from frontmatter
       const keywords =
-          data && data.keywords
-              ? Array.isArray(data.keywords)
-                  ? [...new Set(data.keywords.map(String).map((k) => k.trim()))]
-                  : [
-                    ...new Set(
-                        String(data.keywords)
-                            .split(",")
-                            .map((k) => k.trim()),
-                    ),
-                  ]
-              : undefined;
+        data && data.keywords
+          ? Array.isArray(data.keywords)
+            ? [...new Set(data.keywords.map(String).map((k) => k.trim()))]
+            : [
+                ...new Set(
+                  String(data.keywords)
+                    .split(",")
+                    .map((k) => k.trim()),
+                ),
+              ]
+          : undefined;
 
       // Parse dates from frontmatter (fallback to file mtime)
+      const parsedPublishedAt = data?.publishedAt
+        ? new Date(String(data.publishedAt))
+        : undefined;
       const publishedAt =
-          data && data.publishedAt
-              ? new Date(String(data.publishedAt)).toISOString()
-              : undefined;
+        parsedPublishedAt && !isNaN(parsedPublishedAt.getTime())
+          ? parsedPublishedAt.toISOString()
+          : undefined;
 
+      const parsedUpdatedAt = data?.updatedAt
+        ? new Date(String(data.updatedAt))
+        : undefined;
       const updatedAt =
-          data && data.updatedAt
-              ? new Date(String(data.updatedAt)).toISOString()
-              : lastModified.toISOString();
+        parsedUpdatedAt && !isNaN(parsedUpdatedAt.getTime())
+          ? parsedUpdatedAt.toISOString()
+          : lastModified.toISOString();
 
       files.push({
         slug,

@@ -1,12 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/ui/Tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 // Lazy load the Code component to reduce initial bundle size
 const Code = dynamic(
   () => import("./components/Code").then((mod) => mod.Code),
@@ -101,12 +96,13 @@ const components: MDXComponents = {
       (props.src.startsWith("/") || props.src.startsWith("http"))
     ) {
       return (
-        <span className="block relative my-8 w-full h-auto aspect-video rounded-lg overflow-hidden bg-slate-100">
+        <span className="block relative my-8 w-full rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800">
           <Image
             src={props.src}
             alt={props.alt || ""}
-            fill
-            className="object-contain"
+            width={800}
+            height={450}
+            className="object-contain w-full h-auto"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 50vw"
           />
         </span>
